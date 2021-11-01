@@ -1,7 +1,7 @@
-import { AuthMiddleware, RequestAuthContext } from "./types";
+import { Middleware, RequestAuthContext } from "./types";
 import { headerProxy } from "./util";
 
-export const authMiddleware: AuthMiddleware = (req, _res, next) => {
+export const authMiddleware: Middleware = (req, _res, next) => {
   if (req.headers["x-replit-user-id"]) {
     const authObj = {};
     headerProxy(req, authObj, "id", "x-replit-user-id");
@@ -11,3 +11,15 @@ export const authMiddleware: AuthMiddleware = (req, _res, next) => {
   }
   return next();
 };
+
+export const SIGNIN_SNIPPET =
+  "<script " +
+  'authed="location.reload()" ' +
+  'src="https://auth.turbio.repl.co/script.js"></script>';
+
+export function requireAuth(loginRes: string = SIGNIN_SNIPPET): Middleware {
+  return (req, res, next) => {
+    if (req.auth) return next();
+    res.send(loginRes);
+  };
+}
