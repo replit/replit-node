@@ -12,12 +12,12 @@ export const authMiddleware: Middleware = (req, _res, next) => {
   return next();
 };
 
-export const SIGNIN_SNIPPET =
+export const AUTH_SNIPPET =
   "<script " +
   'authed="location.reload()" ' +
   'src="https://auth.turbio.repl.co/script.js"></script>';
 
-export function requireAuth(loginRes: string = SIGNIN_SNIPPET): Middleware {
+export function requireAuth(loginRes: string = AUTH_SNIPPET): Middleware {
   return (req, res, next) => {
     if (req.auth) return next();
     res.send(loginRes);
