@@ -1,0 +1,16 @@
+{
+  "name": "replit-node",
+  "version": "0.0.1",
+  "description": "A library for creating things inside replit repls",
+  "main": "src/index.ts",
+  "repository": "https://github.com/replit/replit-node",
+  "author": "Spencer Pogorzelski <34356756+Scoder12@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc -w"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.6",
+    "typescript": "^4.4.4"
+  }
+}
