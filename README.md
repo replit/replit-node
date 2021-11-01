@@ -2,7 +2,7 @@
 
 A node.js library that helps you build excellent things inside Repls!
 
-## Express middlewares
+## Features
 
 ### Auth Middleware
 
@@ -25,12 +25,45 @@ You can then use the `req.auth` object in your routes:
 
 ```js
 app.get("/", (req, res) => {
+  // for demo purposes. it's shorter to use `requireAuth` instead of this.
   if (req.auth) {
     res.end(`Hello, ${req.auth.name}`);
   } else {
-    res.send(
-      `Sign in with Repl Auth to use this demo: ${replit.SIGNIN_SNIPPET}`
-    );
+    res.send(`Sign in with Repl Auth to use this demo: ${replit.AUTH_SNIPPET}`);
   }
 });
 ```
+
+### requireAuth Middleware
+
+The `requireAuth` middleware simplifies showing a login screen whenever the user isn't
+signed in with Replit auth. By default, it returns the `AUTH_SNIPPET` whenever the user
+isn't signed in. For example:
+
+```js
+app.get("/", replit.requireAuth(), (req, res) =>
+  res.end(`Hello, ${req.auth.name}`)
+);
+```
+
+You can also customize the login response:
+
+```js
+app.get(
+  "/",
+  replit.requireAuth(
+    `Sign in with Repl Auth to use this demo: ${replit.AUTH_SNIPPET}`
+  ),
+  (req, res) => res.end(`Hello, ${req.auth.name}`)
+);
+```
+
+#### Note about AUTH_SNIPPET
+
+The auth snippet includes some JavaScript that generates a button that users can click
+to sign in to your app with Replit auth. Once they are signed in, it will reload the
+page. This means that using it will only work on pages where the user is directly
+visiting user their browser and a GET request. It won't work with API routes. In
+certain cases, it may make more sense to redirect users to a dedicated login page
+instead. You can access the auth snippet by including `replit.AUTH_SNIPPET` in an HTML
+response (`res.send()`).
