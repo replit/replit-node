@@ -10,4 +10,4 @@ declare global {
   }
 }
 
-export type AuthMiddleware = express.RequestHandler;
+export type Middleware = express.RequestHandler;
