@@ -1,5 +1,20 @@
+import * as express from "express";
 import { Middleware, RequestAuthContext } from "./types";
-import { headerProxy } from "./util";
+
+export function headerProxy(
+  req: express.Request,
+  obj: Record<string, any>,
+  prop: string,
+  headerName: string
+): void {
+  Object.defineProperty(obj, prop, {
+    configurable: false,
+    enumerable: true,
+    get: function () {
+      return req.headers[headerName];
+    },
+  });
+}
 
 export const authMiddleware: Middleware = (req, _res, next) => {
   if (req.headers["x-replit-user-id"]) {
