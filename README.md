@@ -14,7 +14,7 @@ is not signed in, `req.auth` is `undefined`.
 You can activate the middleware for you entire app like this:
 
 ```js
-const replit = require("./dist/index");
+const replit = require("PKG_NAME_TBD");
 const express = require("express");
 
 const app = express();
@@ -67,3 +67,15 @@ visiting user their browser and a GET request. It won't work with API routes. In
 certain cases, it may make more sense to redirect users to a dedicated login page
 instead. You can access the auth snippet by including `replit.AUTH_SNIPPET` in an HTML
 response (`res.send()`).
+
+### Database Client
+
+For bare-metal performance, use the `RawClient`. It is nothing but a node interface to
+the database API without any transformations or niceties. You can use it like this:
+
+```js
+const { RawClient } = require("PKG_NAME_TBD");
+const db = new RawCLient(process.env.REPLIT_DB_URL);
+```
+
+You can then call the `db.list`, `db.get`, `db.setMany`, and `db.delete` functions.
