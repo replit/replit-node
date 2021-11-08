@@ -11,3 +11,10 @@ declare global {
 }
 
 export type Middleware = express.RequestHandler;
+
+export interface IDatabaseClient {
+  get(key: string): Promise<string>;
+  setMany(items: Map<string, string>): Promise<void>;
+  list(prefix: string): Promise<string[]>;
+  delete(key: string): Promise<void>;
+}

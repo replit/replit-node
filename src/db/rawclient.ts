@@ -1,9 +1,10 @@
 import { request } from "undici";
+import { IDatabaseClient } from "../types";
 
 export class KeyError extends Error {}
 
 /** Raw, low-level API access. */
-export class RawClient {
+export class RawClient implements IDatabaseClient {
   /** URL should not have a trailing slash, but it doesn't really matter. */
   readonly url: string;
 

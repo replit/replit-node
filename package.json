@@ -16,5 +16,8 @@
   },
   "dependencies": {
     "undici": "^4.9.5"
+  },
+  "peerDependencies": {
+    "express": "^4.17.1"
   }
 }

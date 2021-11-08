@@ -1,6 +1,7 @@
+import { IDatabaseClient } from "../types";
 import { RawClient } from "./rawclient";
 
-export class Client {
+export class Client implements IDatabaseClient {
   readonly rawClient: RawClient;
   readonly cache: Map<string, string>;
 
@@ -17,9 +18,9 @@ export class Client {
     this.cache.clear();
   }
 
-  async get(key: string) {
+  async get(key: string): Promise<string> {
     if (this.cache.has(key)) {
-      return this.cache.get(key);
+      return this.cache.get(key) as string;
     }
     const value = await this.rawClient.get(key);
     this.cache.set(key, value);
