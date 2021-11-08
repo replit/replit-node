@@ -68,17 +68,32 @@ certain cases, it may make more sense to redirect users to a dedicated login pag
 instead. You can access the auth snippet by including `replit.AUTH_SNIPPET` in an HTML
 response (`res.send()`).
 
-### Database Client
+### Raw Database Client
 
-For bare-metal performance, use the `RawClient`. It is nothing but a node interface to
-the database API without any transformations or niceties. You can use it like this:
+For predictable results, use the `RawClient`. It is nothing but a node interface to the
+database API without any transformations or niceties. You can use it like this:
 
 ```js
-const replit = require("PKG_NAME_TBD");
 // initialize it yourself
-const db = new replit.RawCLient(process.env.REPLIT_DB_URL);
+const db = new replit.RawClient(process.env.REPLIT_DB_URL);
 // or use the shorthand
-const db = replit.rawDB;
+replit.rawDB;
 ```
 
 You can then call the `db.list`, `db.get`, `db.setMany`, and `db.delete` functions.
+
+### Cached Database Client
+
+The database client caches all reads and writes performed after the client was created.
+It is not safe to use if multiple threads or processes are writing to the database at
+the same time, as this can lead to incorrect results being returned from the cache. You
+can use it like this:
+
+```js
+const db = new replit.Client.create(process.env.REPLIT_DB_URL);
+// or
+replit.db;
+```
+
+You can use all the same methods the raw client in addition to `db.set` which uses
+`setMany` under the hood.
