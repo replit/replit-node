@@ -74,8 +74,11 @@ For bare-metal performance, use the `RawClient`. It is nothing but a node interf
 the database API without any transformations or niceties. You can use it like this:
 
 ```js
-const { RawClient } = require("PKG_NAME_TBD");
-const db = new RawCLient(process.env.REPLIT_DB_URL);
+const replit = require("PKG_NAME_TBD");
+// initialize it yourself
+const db = new replit.RawCLient(process.env.REPLIT_DB_URL);
+// or use the shorthand
+const db = replit.rawDB;
 ```
 
 You can then call the `db.list`, `db.get`, `db.setMany`, and `db.delete` functions.
