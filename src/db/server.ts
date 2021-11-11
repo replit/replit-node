@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { json as expressJSON, Router } from "express";
 import { IDatabaseClient, Middleware } from "../types";
 import { KeyError } from "./rawclient";
 
@@ -46,6 +46,7 @@ export function exposeWrite(
   const router = Router();
   router.post(
     "/:key",
+    expressJSON(),
     wrapAsync(async (req, res, next) => {
       const { key } = req.params;
       if (!keys.has(key)) return next();
