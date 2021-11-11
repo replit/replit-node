@@ -67,10 +67,10 @@ export function exposeWrite(
 
 export function exposeReadWrite(
   db: IDatabaseClient,
-  keys: Set<string>
+  ...keys: string[]
 ): Middleware {
   const router = Router();
-  router.use(exposeRead(db, keys));
-  router.use(exposeWrite(db, keys));
+  router.use(exposeRead(db, ...keys));
+  router.use(exposeWrite(db, ...keys));
   return router;
 }
