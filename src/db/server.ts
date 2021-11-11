@@ -15,13 +15,14 @@ function wrapAsync(func: Middleware): Middleware {
   };
 }
 
-export function exposeRead(db: IDatabaseClient, keys: Set<string>): Middleware {
+export function exposeRead(db: IDatabaseClient, ...keys: string[]): Middleware {
   const router = Router();
+  const allowed = new Set(keys);
   router.get(
     "/:key",
     wrapAsync(async (req, res, next) => {
       const { key } = req.params;
-      if (!keys.has(key)) return next();
+      if (!allowed.has(key)) return next();
 
       let value;
       try {
@@ -41,15 +42,16 @@ export function exposeRead(db: IDatabaseClient, keys: Set<string>): Middleware {
 
 export function exposeWrite(
   db: IDatabaseClient,
-  keys: Set<string>
+  ...keys: string[]
 ): Middleware {
   const router = Router();
+  const allowed = new Set(keys);
   router.post(
     "/:key",
     expressJSON(),
     wrapAsync(async (req, res, next) => {
       const { key } = req.params;
-      if (!keys.has(key)) return next();
+      if (!allowed.has(key)) return next();
 
       const val = req.body.value;
       if (typeof val !== "string") {
